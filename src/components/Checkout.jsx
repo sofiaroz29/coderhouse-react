@@ -3,11 +3,15 @@ import Form from 'react-bootstrap/Form';
 import {useCart} from '../context/useCart'
 import { serverTimestamp } from 'firebase/firestore';
 import { createOrder } from '../firebase/db';
+import OrderSuccess from './OrderSuccess';
+import { useState } from 'react'; 
+
 
 function Checkout (){
-    const {cart} = useCart()
+    const {cart, clearCart} = useCart()
+    const [orderData, setOrderData] = useState(null)
 
-    const handleSubmit = (e) =>{
+    const handleSubmit = async (e) =>{
         e.preventDefault()
 
         const form = e.target
@@ -21,7 +25,16 @@ function Checkout (){
             time: serverTimestamp(),
         }
 
-        createOrder(order)
+        const id = await createOrder(order)
+        setOrderData({ id, ...order })
+        form.reset()
+        clearCart()
+
+      
+    }
+
+    if (orderData) {
+        return <OrderSuccess order={orderData} />
     }
 
     return (

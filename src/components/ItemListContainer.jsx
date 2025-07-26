@@ -6,7 +6,7 @@ import { useParams } from "react-router";
 import {getProducts, getProductsByCategory } from "../firebase/db"
 
 const itemListWithLog = withLog(ItemList)
-const itemListWithLoading = withLoading (ItemList)
+const ItemListWithLoading = withLoading (ItemList)
 function ItemListContainer (){
     const [items, setItems] = useState ([])
     const {categoryName} = useParams()
@@ -53,7 +53,7 @@ function ItemListContainer (){
 
 
     return (
-       <itemListWithLoading items = {items} />
+       <ItemListWithLoading items = {items} />
     );
 
     

@@ -1,9 +1,9 @@
 import {useState, useContext} from 'react';
-import {CartContext} from "../context/CartContext"
+import {cartContext} from "../context/CartContext"
 
 function Counter({item}){
-    const [count, setCount] = useState(0);
-    const {addToCart} = useContext(CartContext);
+    const [count, setCount] = useState(1);
+    const {addToCart} = useContext(cartContext);
 
     const handleSumar = ()=>{
         setCount(count + 1);
@@ -12,15 +12,21 @@ function Counter({item}){
         setCount(count-1);
     }
 
-    const handleAddToCart = ()=>{
-        addToCart({...item, cantidad: count})
+    const handleAddToCart = () =>{
+        addToCart({
+            id: item.id,
+            title: item.title,
+            price: item.price,
+            thumbnail: item.thumbnail, // si lo necesitás después
+            cantidad: count
+        })
     }
     return (
         <div>
             <p>{count}</p>
             <button onClick = {handleSumar}> + </button>
-            <button onClick = {handleRestar}> -</button>
-            <button onClick = {handleAddToCart} disabled = {coonter === 0}>agregar al carrito</button>
+            <button onClick = {handleRestar} disabled={count === 1}> -</button>
+            <button onClick = {handleAddToCart} disabled = {count === 0}>agregar al carrito</button>
         </div>
 
     )
